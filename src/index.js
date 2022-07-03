@@ -11,31 +11,19 @@ const onClickAdd = () => {
 const addIncompleteTodo = (text) => {
   const div = createDivElement();
   const li = createLiElement(text);
+
   const completeButton = createButtonElement("完了");
   completeButton.addEventListener("click", () => {
-    // 押された削除ボタンの親タグ(div)を未完了リストから削除
-    const completeTarget = completeButton.parentNode;
-    document
-      .getElementById("incomplete-list")
-      .removeChild(completeButton.parentNode);
-
-    addCompleteTodo(completeTarget);
+    deleteFromList("incomplete-list", completeButton.parentNode);
+    addCompleteTodo(completeButton.parentNode);
   });
 
   const deleteButton = createButtonElement("削除");
   deleteButton.addEventListener("click", () => {
-    // 押された削除ボタンの親タグ(div)を未完了リストから削除
-    document
-      .getElementById("incomplete-list")
-      .removeChild(deleteButton.parentNode);
+    deleteFromList("incomplete-list", completeButton.parentNode);
   });
 
-  // divタグの子要素に各要素を設定
-  div.appendChild(li);
-  div.appendChild(completeButton);
-  div.appendChild(deleteButton);
-
-  // 未完了リストに追加
+  setChildrenNode(div, [li, completeButton, deleteButton]);
   document.getElementById("incomplete-list").appendChild(div);
 };
 
@@ -43,18 +31,14 @@ const addIncompleteTodo = (text) => {
 const addCompleteTodo = (target) => {
   const div = createDivElement();
   const li = createLiElement(target.firstChild.innerText);
+
   const backButton = createButtonElement("戻す");
   backButton.addEventListener("click", () => {
-    const incompleteTarget = backButton.parentNode;
-    document.getElementById("complete-list").removeChild(incompleteTarget);
-    addIncompleteTodo(incompleteTarget.firstChild.innerText);
+    deleteFromList("complete-list", backButton.parentNode);
+    addIncompleteTodo(backButton.previousElementSibling.innerText);
   });
 
-  // divタグの子要素に各要素を設定
-  div.appendChild(li);
-  div.appendChild(backButton);
-
-  // 完了リストに追加
+  setChildrenNode(div, [li, backButton]);
   document.getElementById("complete-list").appendChild(div);
 };
 
@@ -77,6 +61,18 @@ const createButtonElement = (title) => {
   const button = document.createElement("button");
   button.innerText = title;
   return button;
+};
+
+// listからTODOを削除
+const deleteFromList = (element, target) => {
+  document.getElementById(element).removeChild(target);
+};
+
+// divタグの子要素に各要素を設定
+const setChildrenNode = (element, children) => {
+  return children.map((child) => {
+    return element.appendChild(child);
+  });
 };
 
 document
