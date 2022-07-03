@@ -7,31 +7,27 @@ const onClickAdd = () => {
   addIncompleteTodo(inputText);
 };
 
+//未完了リストへの追加
 const addIncompleteTodo = (text) => {
-  // divタグを作成
-  const div = document.createElement("div");
-  div.className = "list-row";
-
-  // liタグを生成
-  const li = document.createElement("li");
-  li.innerText = text;
-
-  // button（完了）タグを作成
-  const completeButton = document.createElement("button");
-  completeButton.innerText = "完了";
+  const div = createDivElement();
+  const li = createLiElement(text);
+  const completeButton = createButtonElement("完了");
   completeButton.addEventListener("click", () => {
+    // 押された削除ボタンの親タグ(div)を未完了リストから削除
     const completeTarget = completeButton.parentNode;
-    document.getElementById("incomplete-list").removeChild(completeTarget);
+    document
+      .getElementById("incomplete-list")
+      .removeChild(completeButton.parentNode);
+
     addCompleteTodo(completeTarget);
   });
 
-  // button（削除）タグを作成
-  const deleteButton = document.createElement("button");
-  deleteButton.innerText = "削除";
+  const deleteButton = createButtonElement("削除");
   deleteButton.addEventListener("click", () => {
     // 押された削除ボタンの親タグ(div)を未完了リストから削除
-    const deleteTarget = deleteButton.parentNode;
-    document.getElementById("incomplete-list").removeChild(deleteTarget);
+    document
+      .getElementById("incomplete-list")
+      .removeChild(deleteButton.parentNode);
   });
 
   // divタグの子要素に各要素を設定
@@ -43,24 +39,15 @@ const addIncompleteTodo = (text) => {
   document.getElementById("incomplete-list").appendChild(div);
 };
 
+//完了リストへの追加
 const addCompleteTodo = (target) => {
-  // divタグを作成
-  const div = document.createElement("div");
-  div.className = "list-row";
-
-  // liタグを生成
-  const li = document.createElement("li");
-  li.innerText = target.children[0].innerText;
-
-  // button（戻す）タグを作成
-  target.removeChild(target.children[1]);
-  target.removeChild(target.children[1]);
-  const backButton = document.createElement("button");
-  backButton.innerText = "戻す";
+  const div = createDivElement();
+  const li = createLiElement(target.firstChild.innerText);
+  const backButton = createButtonElement("戻す");
   backButton.addEventListener("click", () => {
     const incompleteTarget = backButton.parentNode;
     document.getElementById("complete-list").removeChild(incompleteTarget);
-    addIncompleteTodo(incompleteTarget.children[0].innerText);
+    addIncompleteTodo(incompleteTarget.firstChild.innerText);
   });
 
   // divタグの子要素に各要素を設定
@@ -69,6 +56,27 @@ const addCompleteTodo = (target) => {
 
   // 完了リストに追加
   document.getElementById("complete-list").appendChild(div);
+};
+
+// divタグを作成
+const createDivElement = () => {
+  const div = document.createElement("div");
+  div.className = "list-row";
+  return div;
+};
+
+// liタグを生成
+const createLiElement = (text) => {
+  const li = document.createElement("li");
+  li.innerText = text;
+  return li;
+};
+
+// buttonタグを生成
+const createButtonElement = (title) => {
+  const button = document.createElement("button");
+  button.innerText = title;
+  return button;
 };
 
 document
