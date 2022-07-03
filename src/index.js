@@ -75,6 +75,11 @@ const setChildrenNode = (element, children) => {
   });
 };
 
-document
-  .getElementById("add-button")
-  .addEventListener("click", () => onClickAdd());
+document.getElementById("add-button").addEventListener(
+  "click",
+  (event) => {
+    event.preventDefault();
+    onClickAdd();
+  },
+  { passive: false }
+);
