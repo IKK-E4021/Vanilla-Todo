@@ -63,8 +63,11 @@ const addCompleteTodo = (target) => {
     addIncompleteTodo(incompleteTarget.children[0].innerText);
   });
 
+  // divタグの子要素に各要素を設定
   div.appendChild(li);
   div.appendChild(backButton);
+
+  // 完了リストに追加
   document.getElementById("complete-list").appendChild(div);
 };
 
