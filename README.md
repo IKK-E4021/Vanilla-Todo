@@ -1,2 +1,2 @@
-# todo-js2022
+# todo-js
 Created with CodeSandbox
