@@ -1,2 +1,2 @@
-# todo-js
+# Vanilla-Todo
 Created with CodeSandbox
